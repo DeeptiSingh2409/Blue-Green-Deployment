@@ -1,7 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bankapp-green
+  name: bankapp-blue
+  namespace: webapps
 spec:
   replicas: 1
   selector:
@@ -14,22 +15,25 @@ spec:
         app: bankapp
         version: green
     spec:
+      imagePullSecrets:
+        - name: regcred   # <- reference your Docker Hub secret
       containers:
-      - name: bankapp
-        image: deepti2409/bankapp:green # Adjust the image tag for the green version
-        ports:
-        - containerPort: 8080
-        env:
-        - name: SPRING_DATASOURCE_URL
-          value: jdbc:mysql://mysql-service:3306/bankappdb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-        - name: SPRING_DATASOURCE_USERNAME
-          value: root
-        - name: SPRING_DATASOURCE_PASSWORD
-          value: Test@123
-        resources:
-          requests:
-            memory: "500Mi"
-            cpu: "500m"
-          limits:
-            memory: "1000Mi"
-            cpu: "1000m"
+        - name: bankapp
+          image: deepti2409/bankapp:green
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql-service:3306/bankappdb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: Test@123
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "500Mi"
+            limits:
+              cpu: "1"
+              memory: "1000Mi"
+          imagePullPolicy: Always
