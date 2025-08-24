@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bankapp-blue
+  namespace: webapps
 spec:
   replicas: 1
   selector:
@@ -17,6 +18,7 @@ spec:
       containers:
       - name: bankapp
         image: deepti2409/bankapp:blue # Adjust the image tag for the blue version
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         env:
