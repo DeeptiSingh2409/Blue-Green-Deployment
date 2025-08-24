@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bankapp-blue
+  name: bankapp-green
   namespace: webapps
 spec:
   replicas: 1
